@@ -4,18 +4,25 @@ import React from 'react';
 import Select from 'react-select';
 
 const options = [
-    {value: "young", label: "Young"},
-    {value: "adult", label: "Adult"},
-    {value: "kids", label: "Kids"},
-    {value: "old", label: "Old"},
-    {value: "undefined", label: "Undefined"},
+    {value: "young", label: "young"},
+    {value: "adult", label: "adult"},
+    {value: "kids", label: "kids"},
+    {value: "old", label: "old"},
+    {value: "undefined", label: "undefined"},
 ];
 
-const Index = () => {
+const Index = (props) => {
+    let selectOptions = props.optionsArray.map((option) => {
+        return {
+            value: option,
+            label: option,
+        }
+    })
+
     return (
         <Select
             isMulti
-            options={options}/>
+            options={selectOptions}/>
     );
 };
 

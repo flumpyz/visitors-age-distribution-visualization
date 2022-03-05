@@ -1,5 +1,5 @@
 import React from 'react';
-import useSWR from 'swr'
+import useSWR from 'swr';
 // import cx from 'classnames';
 // import s from './style.module.css';
 import ageDistributionURL from "../../Constants/ageDistributionURL";
@@ -50,53 +50,41 @@ export const options = {
 const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const backgroundColors = ['#0000CD', '#00FA9A', '#B22222', '#808080', '#1E90FF'];
 
-const Index = () => {
-    const url = ageDistributionURL;
+const Index = (props) => {
+    let inf = getTotalAgeDistribution(props.data.data);
+    let ages = getAllAgeGroups(props.data.data);
 
-    const getData = async () => {
-        const response = await fetch(url);
-        return response.json();
+    let agesDatasets = [];
+
+    ages.map((age, index) => {
+        agesDatasets.push({
+            label: age,
+            data: labels.map((dayLabel) => {
+                if (!inf.has(dayLabel)) {
+                    return 0;
+                } else if (!inf.get(dayLabel).has(age)) {
+                    return 0;
+                } else {
+                    return inf.get(dayLabel).get(age);
+                }
+            }),
+            backgroundColor: backgroundColors[index],
+        })
+        ;
+    })
+
+    const datas = {
+        labels,
+        datasets: agesDatasets,
     };
 
-    const {data, error} = useSWR(url, getData);
+    console.log(agesDatasets);
 
-    if (error) return <div>ошибка загрузки</div>
-    if (!data) return <div>загрузка...</div>
+    console.log(inf);
 
-    if (data) {
-        let inf = getTotalAgeDistribution(data.data);
-        let ages = getAllAgeGroups(data.data);
-
-        let agesDatasets = [];
-
-        ages.map((age, index) => {
-            agesDatasets.push({
-                label: age,
-                data: labels.map((dayLabel) => {
-                    if (!inf.has(dayLabel)) {
-                        return 0;
-                    } else if (!inf.get(dayLabel).has(age)) {
-                        return 0;
-                    } else {
-                        return inf.get(dayLabel).get(age);
-                    }
-                }),
-                backgroundColor: backgroundColors[index],
-            })
-            ;
-        })
-
-        const datas = {
-            labels,
-            datasets: agesDatasets,
-        };
-
-        console.log(agesDatasets);
-
-        console.log(inf);
-
-        return <Bar options={options} data={datas}></Bar>
-    }
+    return <Bar options={options} data={datas} type={'bar'}>
+        
+    </Bar>;
 };
 
 export default Index;
