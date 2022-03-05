@@ -31,6 +31,10 @@ export const options = {
             display: true,
             text: 'Total views: Age (by day of week)',
         },
+
+        legend: {
+            position: "bottom",
+        }
     },
     responsive: true,
     scales: {
