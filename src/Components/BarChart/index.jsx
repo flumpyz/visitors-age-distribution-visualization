@@ -2,8 +2,8 @@ import React from 'react';
 import useSWR from 'swr'
 // import cx from 'classnames';
 // import s from './style.module.css';
-import ageDistributionURL from "../Constants/ageDistributionURL";
-import '../dataParser';
+import ageDistributionURL from "../../Constants/ageDistributionURL";
+import '../../dataParser';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,7 +14,7 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
-import {getAllAgeGroups, getTotalAgeDistribution} from "../dataParser";
+import {getAllAgeGroups, getTotalAgeDistribution} from "../../dataParser";
 
 ChartJS.register(
     CategoryScale,
@@ -50,7 +50,7 @@ export const options = {
 const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const backgroundColors = ['#0000CD', '#00FA9A', '#B22222', '#808080', '#1E90FF'];
 
-const BarChart = () => {
+const Index = () => {
     const url = ageDistributionURL;
 
     const getData = async () => {
@@ -99,4 +99,4 @@ const BarChart = () => {
     }
 };
 
-export default BarChart;
+export default Index;
