@@ -1,6 +1,10 @@
 import React from 'react';
-// import cx from 'classnames';
-// import s from './style.module.css';
+import {DAYS_OF_WEEK} from "../../Constants/daysOfWeek";
+import {OPTIONS} from "../../Constants/barOptions";
+import {BACKGROUND_COLORS} from "../../Constants/backgroundColors";
+import {Bar} from 'react-chartjs-2';
+import {getAgeDistributionByDevices, getAllAgeGroups} from "../../dataParser";
+
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -10,8 +14,6 @@ import {
     Tooltip,
     Legend,
 } from 'chart.js';
-import {Bar} from 'react-chartjs-2';
-import {getAgeDistributionByDevices, getAllAgeGroups} from "../../dataParser";
 
 ChartJS.register(
     CategoryScale,
@@ -22,60 +24,39 @@ ChartJS.register(
     Legend
 );
 
-export const options = {
-    plugins: {
-        title: {
-            display: true,
-            text: 'Total views: Age (by day of week)',
-        },
-
-        legend: {
-            position: "bottom",
-        }
-    },
-    responsive: true,
-    scales: {
-        x: {
-            stacked: true,
-        },
-        y: {
-            stacked: true,
-        },
-    },
-};
-
-const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
-const backgroundColors = ['#0000CD', '#00FA9A', '#B22222', '#808080', '#1E90FF'];
+const options = OPTIONS;
+const labels = DAYS_OF_WEEK;
+const backgroundColors = BACKGROUND_COLORS;
 
 const Index = (props) => {
-    let inf = getAgeDistributionByDevices(props.data.data, props.selectedDevices);
-    let ages = getAllAgeGroups(props.data.data);
+    let inf = getAgeDistributionByDevices(props.data, props.selectedDevices);
+    let ageGroups = getAllAgeGroups(props.data);
 
     let agesDatasets = [];
 
-    ages.map((age, index) => {
+    // eslint-disable-next-line array-callback-return
+    ageGroups.map((ageGroup, index) => {
         agesDatasets.push({
-            label: age,
+            label: ageGroup,
             data: labels.map((dayLabel) => {
                 if (!inf.has(dayLabel)) {
                     return 0;
-                } else if (!inf.get(dayLabel).has(age)) {
+                } else if (!inf.get(dayLabel).has(ageGroup)) {
                     return 0;
                 } else {
-                    return inf.get(dayLabel).get(age);
+                    return inf.get(dayLabel).get(ageGroup);
                 }
             }),
             backgroundColor: backgroundColors[index],
-        })
-        ;
+        });
     })
 
-    const datas = {
+    const datasets = {
         labels,
         datasets: agesDatasets,
     };
 
-    return <Bar options={options} data={datas} type={'bar'}>
+    return <Bar options={options} data={datasets} type={'bar'}>
     </Bar>;
 };
 

@@ -1,11 +1,11 @@
 import React, {useEffect, useState} from "react";
-import './App.css';
 import useSWR from 'swr';
+import './App.css';
+
 import BarChart from "./Components/BarChart";
 import Filter from './Components/Filter';
-import ageDistributionURL from "./Constants/ageDistributionURL";
-import './dataParser';
 import {getAllDevices} from "./dataParser";
+import {ageDistributionURL} from "./Constants/ageDistributionURL";
 
 const url = ageDistributionURL;
 
@@ -21,12 +21,12 @@ function App() {
 
     useEffect(() => {
         if (data) {
-            setSelectedDevices(getAllDevices(data.data));
+            setSelectedDevices(getAllDevices(data));
         }
     }, [data, error]);
 
     if (data) {
-        let options = getAllDevices(data.data);
+        let options = getAllDevices(data);
 
         return (
             <div className="App">

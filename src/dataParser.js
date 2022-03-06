@@ -1,7 +1,7 @@
-const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+import {DAYS_OF_WEEK} from "./Constants/daysOfWeek";
 
-export function getAgeDistributionByDeviceAll(devicesData) {
-    let devices = devicesData.o;
+function getAgeDistributionByDeviceAll(devicesData) {
+    let devices = devicesData.data.o;
     let dataObjects = [];
 
     devices.forEach(function (device) {
@@ -51,37 +51,9 @@ export function getAgeDistributionByDevices(devicesData, devicesIdArray) {
     return ageDistribution;
 }
 
-export function getTotalAgeDistribution(devicesData) {
-    let ageDistributionByDeviceAll = getAgeDistributionByDeviceAll(devicesData);
-    let totalAgeDistribution = new Map();
-
-    DAYS_OF_WEEK.forEach(function (day) {
-        let dailyInfo = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day);
-        let ageByDay = new Map();
-        let sumViews = 0;
-
-        dailyInfo.forEach(function (infoObj) {
-            let infoByAge = dailyInfo.filter(deviceInfo => deviceInfo.age === infoObj.age);
-
-            if (!ageByDay.has(infoObj.age)) {
-
-                infoByAge.forEach(function (viewsInfo) {
-                    sumViews += viewsInfo.views;
-                })
-
-                ageByDay.set(infoObj.age, sumViews);
-            }
-        });
-
-        totalAgeDistribution.set(day, ageByDay);
-    });
-
-    return totalAgeDistribution;
-}
-
 export function getAllAgeGroups(devicesData) {
     let ageGroups = new Set();
-    let devices = devicesData.o;
+    let devices = devicesData.data.o;
 
     devices.forEach(function (device) {
         device.o.forEach(function (date) {
@@ -95,7 +67,7 @@ export function getAllAgeGroups(devicesData) {
 }
 
 export function getAllDevices(devicesData) {
-    let devices = devicesData.o;
+    let devices = devicesData.data.o;
     let devicesArray = [];
 
     devices.forEach(function (device) {
@@ -105,12 +77,12 @@ export function getAllDevices(devicesData) {
     return devicesArray;
 }
 
-export function getDayOfWeekNameByStringDate(stringDate) {
+function getDayOfWeekNameByStringDate(stringDate) {
     const date = new Date(stringDate);
     return getNameOfDayOfWeek(date.getDay());
 }
 
-export function getNameOfDayOfWeek(dayNumber) {
+function getNameOfDayOfWeek(dayNumber) {
     if (dayNumber >= 0 && dayNumber < 7) {
         return DAYS_OF_WEEK[dayNumber];
     }
