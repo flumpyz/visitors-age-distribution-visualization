@@ -1,9 +1,11 @@
 import React from 'react';
+
 import {DAYS_OF_WEEK} from "../../Constants/daysOfWeek";
 import {OPTIONS} from "../../Constants/barOptions";
 import {BACKGROUND_COLORS} from "../../Constants/backgroundColors";
+
 import {Bar} from 'react-chartjs-2';
-import {getAgeDistributionByDevices, getAllAgeGroups} from "../../dataParser";
+import {getAgeDistributionByDevices, getAllAgeGroups} from "../../Helpers/dataParser";
 
 import {
     Chart as ChartJS,

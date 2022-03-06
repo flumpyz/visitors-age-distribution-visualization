@@ -4,7 +4,7 @@ import './App.css';
 
 import BarChart from "./Components/BarChart";
 import Filter from './Components/Filter';
-import {getAllDevices} from "./dataParser";
+import {getAllDevices} from "./Helpers/dataParser";
 import {ageDistributionURL} from "./Constants/ageDistributionURL";
 
 const url = ageDistributionURL;

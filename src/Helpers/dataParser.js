@@ -1,4 +1,4 @@
-import {DAYS_OF_WEEK} from "./Constants/daysOfWeek";
+import {DAYS_OF_WEEK} from "../Constants/daysOfWeek";
 
 function getAgeDistributionByDeviceAll(devicesData) {
     let devices = devicesData.data.o;
