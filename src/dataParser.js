@@ -2,7 +2,7 @@ import {DAYS_OF_WEEK} from "./Constants/daysOfWeek";
 
 function getAgeDistributionByDeviceAll(devicesData) {
     let devices = devicesData.data.o;
-    let dataObjects = [];
+    let devicesDataObjects = [];
 
     devices.forEach(function (device) {
         device.o.forEach(function (date) {
@@ -14,12 +14,12 @@ function getAgeDistributionByDeviceAll(devicesData) {
                 infoObj.age = age.n;
                 infoObj.views = age.v;
 
-                dataObjects.push(infoObj);
+                devicesDataObjects.push(infoObj);
             });
         });
     });
 
-    return dataObjects;
+    return devicesDataObjects;
 }
 
 export function getAgeDistributionByDevices(devicesData, devicesIdArray) {
@@ -27,13 +27,13 @@ export function getAgeDistributionByDevices(devicesData, devicesIdArray) {
     let ageDistribution = new Map();
 
     DAYS_OF_WEEK.forEach(function (day) {
-        let dailyInfo = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day
+        let infoByDay = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day
             && devicesIdArray.includes(deviceInfo.deviceId));
         let ageByDay = new Map();
         let sumViews = 0;
 
-        dailyInfo.forEach(function (infoObj) {
-            let infoByAge = dailyInfo.filter(deviceInfo => deviceInfo.age === infoObj.age);
+        infoByDay.forEach(function (infoObj) {
+            let infoByAge = infoByDay.filter(deviceInfo => deviceInfo.age === infoObj.age);
 
             if (!ageByDay.has(infoObj.age)) {
 
@@ -68,13 +68,8 @@ export function getAllAgeGroups(devicesData) {
 
 export function getAllDevices(devicesData) {
     let devices = devicesData.data.o;
-    let devicesArray = [];
 
-    devices.forEach(function (device) {
-        devicesArray.push(device.n);
-    });
-
-    return devicesArray;
+    return devices.map(device => device.n);
 }
 
 function getDayOfWeekNameByStringDate(stringDate) {
