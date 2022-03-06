@@ -30,10 +30,10 @@ export function getAgeDistributionByDevices(devicesData, devicesIdArray) {
         let infoByDay = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day
             && devicesIdArray.includes(deviceInfo.deviceId));
         let ageByDay = new Map();
-        let sumViews = 0;
 
         infoByDay.forEach(function (infoObj) {
             let infoByAge = infoByDay.filter(deviceInfo => deviceInfo.age === infoObj.age);
+            let sumViews = 0;
 
             if (!ageByDay.has(infoObj.age)) {
 
