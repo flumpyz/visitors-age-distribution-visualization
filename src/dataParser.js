@@ -1,6 +1,6 @@
 const DAYS_OF_WEEK = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
 
-export function getAgeDistributionByDeviceAll (devicesData) {
+export function getAgeDistributionByDeviceAll(devicesData) {
     let devices = devicesData.o;
     let dataObjects = [];
 
@@ -22,7 +22,7 @@ export function getAgeDistributionByDeviceAll (devicesData) {
     return dataObjects;
 }
 
-export function getAgeDistributionByDevice (devicesData, deviceId) {
+export function getAgeDistributionByDevice(devicesData, deviceId) {
     let ageDistributionByDevice = [];
     let ageDistributionByDeviceAll = getAgeDistributionByDeviceAll(devicesData);
 
@@ -35,7 +35,7 @@ export function getAgeDistributionByDevice (devicesData, deviceId) {
     return ageDistributionByDevice;
 }
 
-export function getTotalAgeDistribution (devicesData) {
+export function getTotalAgeDistribution(devicesData) {
     let ageDistributionByDeviceAll = getAgeDistributionByDeviceAll(devicesData);
     let totalAgeDistribution = new Map();
 
@@ -67,7 +67,7 @@ export function getTotalAgeDistribution (devicesData) {
     return totalAgeDistribution;
 }
 
-export function getAllAgeGroups (devicesData) {
+export function getAllAgeGroups(devicesData) {
     let ageGroups = new Set();
     let devices = devicesData.o;
 
@@ -82,12 +82,23 @@ export function getAllAgeGroups (devicesData) {
     return Array.from(ageGroups);
 }
 
-export function getDayOfWeekNameByStringDate (stringDate) {
+export function getAllDevices(devicesData) {
+    let devices = devicesData.o;
+    let devicesArray = [];
+
+    devices.forEach(function (device) {
+        devicesArray.push(device.n);
+    });
+
+    return devicesArray;
+}
+
+export function getDayOfWeekNameByStringDate(stringDate) {
     const date = new Date(stringDate);
     return getNameOfDayOfWeek(date.getDay());
 }
 
-export function getNameOfDayOfWeek (dayNumber) {
+export function getNameOfDayOfWeek(dayNumber) {
     if (dayNumber >= 0 && dayNumber < 7) {
         return DAYS_OF_WEEK[dayNumber];
     }

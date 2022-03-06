@@ -22,7 +22,8 @@ const Index = (props) => {
     return (
         <Select
             isMulti
-            options={selectOptions}/>
+            options={selectOptions}
+            defaultValue={selectOptions} />
     );
 };
 

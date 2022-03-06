@@ -6,7 +6,7 @@ import BarChart from "./Components/BarChart";
 import Filter from './Components/Filter';
 import ageDistributionURL from "./Constants/ageDistributionURL";
 import './dataParser';
-import {getAllAgeGroups} from "./dataParser";
+import {getAllAgeGroups, getAllDevices} from "./dataParser";
 
 function App() {
     const url = ageDistributionURL;
@@ -22,7 +22,7 @@ function App() {
     if (!data) return <div>загрузка...</div>
 
     if (data) {
-        let ageGroups = getAllAgeGroups(data.data);
+        let devices = getAllDevices(data.data);
 
         return (
             <div className="App">
@@ -32,7 +32,7 @@ function App() {
                         Edit <code>src/App.js</code> and save to reload.
                     </p>
                     <BarChart data={data}/>
-                    <Filter optionsArray={ageGroups}/>
+                    <Filter optionsArray={devices}/>
                 </header>
             </div>
         );
