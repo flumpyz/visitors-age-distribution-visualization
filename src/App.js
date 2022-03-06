@@ -1,12 +1,11 @@
 import React, {useEffect, useState} from "react";
-import logo from './logo.svg';
 import './App.css';
 import useSWR from 'swr';
 import BarChart from "./Components/BarChart";
 import Filter from './Components/Filter';
 import ageDistributionURL from "./Constants/ageDistributionURL";
 import './dataParser';
-import {getAgeDistributionByDevices, getAllDevices} from "./dataParser";
+import {getAllDevices} from "./dataParser";
 
 const url = ageDistributionURL;
 
@@ -31,14 +30,10 @@ function App() {
 
         return (
             <div className="App">
-                <header className="App-header">
-                    <img src={logo} className="App-logo" alt="logo"/>
-                    <p>
-                        Edit <code>src/App.js</code> and save to reload.
-                    </p>
-                    <BarChart data={data} selectedDevices={selectedDevices}/>
+                <div className="App-content">
                     <Filter optionsArray={options} changeSelectedDevices={setSelectedDevices}/>
-                </header>
+                    <BarChart data={data} selectedDevices={selectedDevices}/>
+                </div>
             </div>
         );
     }

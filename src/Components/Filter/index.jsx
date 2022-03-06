@@ -1,6 +1,6 @@
 import React from 'react';
-// import cx from 'classnames';
-// import s from './style.module.css';
+import cx from 'classnames';
+import s from './style.module.css';
 import Select from 'react-select';
 
 const Index = (props) => {
@@ -16,11 +16,16 @@ const Index = (props) => {
     };
 
     return (
-        <Select
-            isMulti
-            options={selectOptions}
-            defaultValue={selectOptions}
-            onChange={changeSelectedValues} />
+        <div className={cx(s.filterContainer)}>
+            <h1 className={cx(s.filterContainer__title)}>
+                Выберите устройства:
+            </h1>
+            <Select
+                isMulti
+                options={selectOptions}
+                defaultValue={selectOptions}
+                onChange={changeSelectedValues} />
+        </div>
     );
 };
 

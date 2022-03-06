@@ -11,7 +11,7 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
-import {getAgeDistributionByDevices, getAllAgeGroups, getTotalAgeDistribution} from "../../dataParser";
+import {getAgeDistributionByDevices, getAllAgeGroups} from "../../dataParser";
 
 ChartJS.register(
     CategoryScale,
