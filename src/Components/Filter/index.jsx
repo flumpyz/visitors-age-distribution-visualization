@@ -3,27 +3,24 @@ import React from 'react';
 // import s from './style.module.css';
 import Select from 'react-select';
 
-const options = [
-    {value: "young", label: "young"},
-    {value: "adult", label: "adult"},
-    {value: "kids", label: "kids"},
-    {value: "old", label: "old"},
-    {value: "undefined", label: "undefined"},
-];
-
 const Index = (props) => {
     let selectOptions = props.optionsArray.map((option) => {
         return {
             value: option,
             label: option,
         }
-    })
+    });
+
+    const changeSelectedValues = (newValue) => {
+        props.changeSelectedDevices(newValue.map((newValue) => newValue.value));
+    };
 
     return (
         <Select
             isMulti
             options={selectOptions}
-            defaultValue={selectOptions} />
+            defaultValue={selectOptions}
+            onChange={changeSelectedValues} />
     );
 };
 

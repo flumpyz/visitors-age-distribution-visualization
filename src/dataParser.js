@@ -22,17 +22,33 @@ export function getAgeDistributionByDeviceAll(devicesData) {
     return dataObjects;
 }
 
-export function getAgeDistributionByDevice(devicesData, deviceId) {
-    let ageDistributionByDevice = [];
+export function getAgeDistributionByDevices(devicesData, devicesIdArray) {
     let ageDistributionByDeviceAll = getAgeDistributionByDeviceAll(devicesData);
+    let ageDistribution = new Map();
 
-    ageDistributionByDeviceAll.forEach(function (deviceInfo) {
-        if (deviceInfo.deviceId === deviceId) {
-            ageDistributionByDevice.push(deviceInfo);
-        }
+    DAYS_OF_WEEK.forEach(function (day) {
+        let dailyInfo = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day
+            && devicesIdArray.includes(deviceInfo.deviceId));
+        let ageByDay = new Map();
+        let sumViews = 0;
+
+        dailyInfo.forEach(function (infoObj) {
+            let infoByAge = dailyInfo.filter(deviceInfo => deviceInfo.age === infoObj.age);
+
+            if (!ageByDay.has(infoObj.age)) {
+
+                infoByAge.forEach(function (viewsInfo) {
+                    sumViews += viewsInfo.views;
+                })
+
+                ageByDay.set(infoObj.age, sumViews);
+            }
+        });
+
+        ageDistribution.set(day, ageByDay);
     });
 
-    return ageDistributionByDevice;
+    return ageDistribution;
 }
 
 export function getTotalAgeDistribution(devicesData) {
@@ -40,12 +56,8 @@ export function getTotalAgeDistribution(devicesData) {
     let totalAgeDistribution = new Map();
 
     DAYS_OF_WEEK.forEach(function (day) {
-        let infoByDay = {};
-
         let dailyInfo = ageDistributionByDeviceAll.filter(deviceInfo => deviceInfo.dayOfWeek === day);
-
         let ageByDay = new Map();
-
         let sumViews = 0;
 
         dailyInfo.forEach(function (infoObj) {

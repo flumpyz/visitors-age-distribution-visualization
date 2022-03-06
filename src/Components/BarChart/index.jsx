@@ -1,9 +1,6 @@
 import React from 'react';
-import useSWR from 'swr';
 // import cx from 'classnames';
 // import s from './style.module.css';
-import ageDistributionURL from "../../Constants/ageDistributionURL";
-import '../../dataParser';
 import {
     Chart as ChartJS,
     CategoryScale,
@@ -14,7 +11,7 @@ import {
     Legend,
 } from 'chart.js';
 import {Bar} from 'react-chartjs-2';
-import {getAllAgeGroups, getTotalAgeDistribution} from "../../dataParser";
+import {getAgeDistributionByDevices, getAllAgeGroups, getTotalAgeDistribution} from "../../dataParser";
 
 ChartJS.register(
     CategoryScale,
@@ -51,7 +48,7 @@ const labels = ['Sun', 'Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat'];
 const backgroundColors = ['#0000CD', '#00FA9A', '#B22222', '#808080', '#1E90FF'];
 
 const Index = (props) => {
-    let inf = getTotalAgeDistribution(props.data.data);
+    let inf = getAgeDistributionByDevices(props.data.data, props.selectedDevices);
     let ages = getAllAgeGroups(props.data.data);
 
     let agesDatasets = [];
@@ -78,12 +75,7 @@ const Index = (props) => {
         datasets: agesDatasets,
     };
 
-    console.log(agesDatasets);
-
-    console.log(inf);
-
     return <Bar options={options} data={datas} type={'bar'}>
-        
     </Bar>;
 };
 

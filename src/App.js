@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import logo from './logo.svg';
 import './App.css';
 import useSWR from 'swr';
@@ -6,23 +6,28 @@ import BarChart from "./Components/BarChart";
 import Filter from './Components/Filter';
 import ageDistributionURL from "./Constants/ageDistributionURL";
 import './dataParser';
-import {getAllAgeGroups, getAllDevices} from "./dataParser";
+import {getAgeDistributionByDevices, getAllDevices} from "./dataParser";
+
+const url = ageDistributionURL;
+
+const getData = async () => {
+    const response = await fetch(url);
+    return response.json();
+};
 
 function App() {
-    const url = ageDistributionURL;
-
-    const getData = async () => {
-        const response = await fetch(url);
-        return response.json();
-    };
+    const [ selectedDevices, setSelectedDevices ] = useState([]);
 
     const {data, error} = useSWR(url, getData);
 
-    if (error) return <div>ошибка загрузки</div>
-    if (!data) return <div>загрузка...</div>
+    useEffect(() => {
+        if (data) {
+            setSelectedDevices(getAllDevices(data.data));
+        }
+    }, [data, error]);
 
     if (data) {
-        let devices = getAllDevices(data.data);
+        let options = getAllDevices(data.data);
 
         return (
             <div className="App">
@@ -31,12 +36,14 @@ function App() {
                     <p>
                         Edit <code>src/App.js</code> and save to reload.
                     </p>
-                    <BarChart data={data}/>
-                    <Filter optionsArray={devices}/>
+                    <BarChart data={data} selectedDevices={selectedDevices}/>
+                    <Filter optionsArray={options} changeSelectedDevices={setSelectedDevices}/>
                 </header>
             </div>
         );
     }
+
+    return <div>Загрузка...</div>;
 }
 
 export default App;
